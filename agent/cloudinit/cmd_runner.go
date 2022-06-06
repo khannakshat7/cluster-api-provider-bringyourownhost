@@ -4,13 +4,14 @@
 package cloudinit
 
 import (
+	"context"
 	"os"
 	"os/exec"
 )
 
 //counterfeiter:generate . ICmdRunner
 type ICmdRunner interface {
-	RunCmd(string) error
+	RunCmd(context.Context, string) error
 }
 
 // CmdRunner default implementer of ICmdRunner
@@ -19,8 +20,9 @@ type CmdRunner struct {
 }
 
 // RunCmd executes the command string
-func (r CmdRunner) RunCmd(cmd string) error {
-	command := exec.Command("/bin/sh", "-c", cmd)
+func (r CmdRunner) RunCmd(ctx context.Context, cmd string) error {
+	command := exec.CommandContext(ctx, "/bin/bash", "-c", cmd)
 	command.Stderr = os.Stderr
+	command.Stdout = os.Stdout
 	return command.Run()
 }

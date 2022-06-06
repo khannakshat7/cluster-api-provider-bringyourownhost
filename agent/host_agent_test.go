@@ -36,7 +36,7 @@ import (
 	"sigs.k8s.io/cluster-api/util/patch"
 )
 
-var _ = Describe("Agent", func() {
+var _ = XDescribe("Agent", func() {
 
 	Context("When the host is unable to register with the API server", func() {
 		var (
